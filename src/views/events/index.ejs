@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head><% include ../static/partials/head.ejs %></head>
+
+<body>
+    <main class="container">
+        <% include ../static/partials/navbar.ejs %>
+
+        <h1>Events</h1><hr class="style8">
+
+        <ul class="list-group">
+
+            <% events.forEach((event) => { %>
+
+            <li class="list-group-item">
+                <a href="/events/<%= event.id %>"><%= event.title %></a>
+            </li>
+
+            <% }) %>
+        </ul>
+
+    </main>
+</body>
+
+</html>
