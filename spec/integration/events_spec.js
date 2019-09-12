@@ -81,6 +81,33 @@ describe("routes : events", () => {
                 }
             );
         });
+
+        it("should not create a new post that fails validations", (done) => {
+            const options = {
+              url: `${base}create`,
+              form: {
+
+                title: "a",
+                body: "b"
+              }
+            };
+      
+            request.post(options,
+              (err, res, body) => {
+
+                Event.findOne({ where: { title: "a" } })
+                  .then((event) => {
+                    expect(event).toBeNull();
+                    done();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    done();
+                  });
+              }
+            );
+          });
+
     });
 
     describe("GET /events/:id", () => {
@@ -99,7 +126,7 @@ describe("routes : events", () => {
 
         it("should delete the event with the associated ID", (done) => {
 
-            Event.findAll()
+            Event.all()
                 .then((events) => {
 
                     const eventCountBeforeDelete = events.length;

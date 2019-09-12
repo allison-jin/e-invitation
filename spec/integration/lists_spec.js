@@ -14,7 +14,6 @@ describe("routes : lists", () => {
 
     sequelize.sync({ force: true }).then((res) => {
 
-      //#1
       Event.create({
         title: "Winter Games",
         description: "List your Winter Games stories."
@@ -81,6 +80,32 @@ describe("routes : lists", () => {
       );
     });
 
+    it("should not create a new list that fails validations", (done) => {
+      const options = {
+        url: `${base}/${this.event.id}/lists/create`,
+        form: {
+
+          title: "a",
+          body: "b"
+        }
+      };
+
+      request.post(options,
+        (err, res, body) => {
+
+          List.findOne({ where: { title: "a" } })
+            .then((list) => {
+              expect(list).toBeNull();
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
+        }
+      );
+    });
+
   });
 
   describe("GET /events/:eventId/lists/:id", () => {
@@ -99,26 +124,17 @@ describe("routes : lists", () => {
 
     it("should delete the list with the associated ID", (done) => {
 
-      Event.all()
-        .then((events) => {
+      expect(this.list.id).toBe(1);
 
-          //#2
-          const eventCountBeforeDelete = events.length;
+      request.post(`${base}/${this.event.id}/lists/${this.list.id}/destroy`, (err, res, body) => {
 
-          expect(eventCountBeforeDelete).toBe(1);
-
-          request.post(`${base}/${this.event.id}/lists/${this.list.id}/destroy`, (err, res, body) => {
-
-            //#2
-            List.findById(1)
-              .then((list) => {
-                expect(err).toBeNull();
-                expect(list).toBeNull();
-                done();
-              })
-          });
-
-        });
+        List.findById(1)
+          .then((list) => {
+            expect(err).toBeNull();
+            expect(list).toBeNull();
+            done();
+          })
+      });
 
     });
 
@@ -156,7 +172,8 @@ describe("routes : lists", () => {
       const options = {
         url: `${base}/${this.event.id}/lists/${this.list.id}/update`,
         form: {
-          title: "Snowman Building Competition"
+          title: "Snowman Building Competition",
+          body: "I really enjoy the funny hats on them."
         }
       };
       request.post(options,
