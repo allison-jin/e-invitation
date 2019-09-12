@@ -11,7 +11,8 @@
   <main class="container">
     <h1><%= event.title %></h1>
     <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
-    
+    <a href="/events/<%= event.id %>/lists/new" class="btn btn-success">New List</a>
+
     <form style="display:initial" action="/events/<%= event.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
@@ -37,6 +38,19 @@
         
       </div>
       
+      <hr class="style8">
+
+    <h1>Lists</h1>
+
+    <ul class="list-group">
+      <% event.lists.forEach((list) => { %>
+      <li class="list-group-item">
+        <a href="/events/<%= event.id %>/lists/<%= list.id %>">
+          <%= list.title %> </a>
+      </li>
+      <% }) %>
+    </ul><hr class="style8">
+
   </main>
 
   <% include ../static/partials/baseScripts.ejs %>
