@@ -7,7 +7,13 @@
     <main class="container">
         <% include ../static/partials/navbar.ejs %>
 
-        <h1>Events</h1><hr class="style8">
+        <h1>Events</h1>
+        
+        <% if(currentUser) { %>
+            <a href="/events/new" class="btn btn-success">New Event</a>
+          <% } %>
+
+        <hr class="style8">
 
         <ul class="list-group">
 

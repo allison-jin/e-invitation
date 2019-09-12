@@ -25,7 +25,7 @@ module.exports = {
             if (err) {
                 res.redirect(500, "/events/new");
             } else {
-                res.redirect(303, `/tevents/${event.id}`);
+                res.redirect(303, `/events/${event.id}`);
             }
         });
     },
