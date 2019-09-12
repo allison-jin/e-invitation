@@ -1,9 +1,10 @@
 const Event = require("./models").Event;
+const List = require("./models").List;
 
 module.exports = {
 
   getAllEvents(callback) {
-    return Event.findAll()
+    return Event.all()
 
       .then((events) => {
         callback(null, events);
@@ -27,7 +28,13 @@ module.exports = {
   },
 
   getEvent(id, callback) {
-    return Event.findById(id)
+    return Event.findById(id, {
+
+      include: [{
+        model: List,
+        as: "lists"
+      }]
+    })
       .then((event) => {
         callback(null, event);
       })

@@ -1,26 +1,25 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Event = sequelize.define('Event', {
+  var List = sequelize.define('List', {
     title: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    description: {
+    body: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    eventId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {});
-  Event.associate = function(models) {
+  List.associate = function(models) {
     // associations can be defined here
-    Event.hasMany(models.Banner, {
+    List.belongsTo(models.Event, {
       foreignKey: "eventId",
-      as: "banners",
-    });
-
-    Event.hasMany(models.List, {
-      foreignKey: "eventId",
-      as: "lists"
+      onDelete: "CASCADE"
     });
   };
-  return Event;
+  return List;
 };
