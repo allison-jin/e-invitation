@@ -8,6 +8,15 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    private: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {});
   Event.associate = function(models) {
@@ -21,6 +30,17 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "eventId",
       as: "lists"
     });
+
+    Event.hasMany(models.Comment, {
+      foreignKey: "eventId",
+      as: "comments"
+    });
+
+    Event.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE"
+    });
+
   };
   return Event;
 };

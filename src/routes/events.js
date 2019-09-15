@@ -6,6 +6,7 @@ const validation = require("./validation");
 
 router.get("/events", eventController.index);
 router.get("/events/new", eventController.new);
+router.get("/events/private", eventController.privateIndex);
 router.post("/events/create", validation.validateEvents,eventController.create);
 router.get("/events/:id", eventController.show);
 router.post("/events/:id/destroy", eventController.destroy);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../static/partials/head.ejs %>
+</head>
+
+<body>
+  <% include ../static/partials/navbar.ejs %>
+  <main class="container">
+    <h1>Private Events</h1>
+ 
+    <% if(currentUser) { %>
+    <a href="/events/new" class="btn btn-primary">New Event</a>
+    <% } %>
+    <hr class="style8">
+    <ul class="list-group">
+
+      <% events.forEach((event) => { %>
+  
+      <% if(event.private ==true && (currentUser && (currentUser.id == event.userId && currentUser.role == "premium" || currentUser.role == "admin"))) { %>
+        <li class="list-group-item">
+          <a href="/events/<%= event.id %>">🎉
+            <%= event.title %> </a>
+  
+          <% if(currentUser && (currentUser.id == event.userId || currentUser && currentUser.role === "admin")) { %>
+          <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
+ 
+          <form style="display:initial" action="/tevents/<%= event.id %>/destroy" method="post">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <% } %>
+  
+        </li>
+        <% } %>
+
+
+      <% }) %>
+    </ul>
+  </main>
+</body>
+
+</html>
+
+

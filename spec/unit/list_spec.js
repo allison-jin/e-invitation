@@ -1,36 +1,45 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Event = require("../../src/db/models").Event;
 const List = require("../../src/db/models").List;
+const User = require("../../src/db/models").User;
 
 describe("List", () => {
 
   beforeEach((done) => {
-
     this.event;
     this.list;
+    this.user;
+
     sequelize.sync({force: true}).then((res) => {
 
-      Event.create({
-        title: "Expeditions to Alpha Centauri",
-        description: "A compilation of reports from recent visits to the star system."
+      User.create({
+        email: "starman@tesla.com",
+        password: "Trekkie4lyfe"
       })
-      .then((event) => {
-        this.event = event;
+      .then((user) => {
+        this.user = user; //store the user
 
-        List.create({
-          title: "My first visit to Proxima Centauri b",
-          body: "I saw some rocks.",
-          eventId: this.event.id
+        Event.create({
+          title: "Expeditions to Alpha Centauri",
+          description: "A compilation of reports from recent visits to the star system.",
+          userId: this.user.id,
+          lists: [{
+            title: "My first visit to Proxima Centauri b",
+            body: "I saw some rocks.",
+            userId: this.user.id
+          }]
+        }, {
+          include: {
+            model: List,
+            as: "lists"
+          }
         })
-        .then((list) => {
-          this.list = list;
+        .then((event) => {
+          this.event = event; //store the event
+          this.list = event.lists[0]; //store the list
           done();
-        });
+        })
       })
-      .catch((err) => {
-        console.log(err);
-        done();
-      });
     });
 
   });
@@ -42,12 +51,15 @@ describe("List", () => {
       List.create({
         title: "Pros of Cryosleep during the long journey",
         body: "1. Not having to answer the 'are we there yet?' question.",
-        eventId: this.event.id
+        eventId: this.event.id,
+        userId: this.user.id
       })
       .then((list) => {
 
         expect(list.title).toBe("Pros of Cryosleep during the long journey");
         expect(list.body).toBe("1. Not having to answer the 'are we there yet?' question.");
+        expect(list.eventId).toBe(this.event.id);
+        expect(list.userId).toBe(this.user.id);
         done();
 
       })
@@ -83,7 +95,8 @@ describe("List", () => {
 
       Event.create({
         title: "Challenges of interstellar travel",
-        description: "1. The Wi-Fi is terrible"
+        description: "1. The Wi-Fi is terrible",
+        userId: this.user.id
       })
       .then((newEvent) => {
 
@@ -114,5 +127,43 @@ describe("List", () => {
     });
 
   });
+
+  describe("#setUser()", () => {
+
+    it("should associate a list and a user together", (done) => {
+
+      User.create({
+        email: "ada@example.com",
+        password: "password"
+      })
+      .then((newUser) => {
+
+        expect(this.list.userId).toBe(this.user.id);
+
+        this.list.setUser(newUser)
+        .then((list) => {
+
+          expect(this.list.userId).toBe(newUser.id);
+          done();
+
+        });
+      })
+    });
+
+  });//setUser
+
+  describe("#getUser()", () => {
+
+    it("should return the associated event", (done) => {
+
+      this.list.getUser()
+      .then((associatedUser) => {
+        expect(associatedUser.email).toBe("starman@tesla.com");
+        done();
+      });
+
+    });
+
+  });//getUser
 
 });

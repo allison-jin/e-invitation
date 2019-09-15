@@ -6,6 +6,8 @@ const expressValidator = require("express-validator");
 const session = require("express-session");
 const flash = require("express-flash");
 const passportConfig = require("./passport-config");
+const stripe = require("stripe")("pk_test_Xih9HT4dDRnmeiGYEi4bGLq000QD130Iso");
+
 
 module.exports = {
   init(app, express){

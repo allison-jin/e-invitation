@@ -1,10 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var List = sequelize.define('List', {
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+  var Comment = sequelize.define('Comment', {
     body: {
       type: DataTypes.STRING,
       allowNull: false
@@ -18,18 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  List.associate = function(models) {
+  Comment.associate = function(models) {
     // associations can be defined here
-    List.belongsTo(models.Event, {
+    Comment.belongsTo(models.Event, {
       foreignKey: "eventId",
       onDelete: "CASCADE"
     });
 
-    List.belongsTo(models.User, {
+    Comment.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE"
     });
-
   };
-  return List;
+  return Comment;
 };

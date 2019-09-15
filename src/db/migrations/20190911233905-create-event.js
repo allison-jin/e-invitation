@@ -16,6 +16,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      private: {
+        defaultValue: false,
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -23,6 +28,16 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE", // delete list if parent event is deleted
+        allowNull: false,    // validation to prevent null value
+        references: {        // association information
+          model: "Users",   // table name
+          key: "id",         // attribute to use
+          as: "userId"      // reference as eventId
+        }
       }
     });
   },

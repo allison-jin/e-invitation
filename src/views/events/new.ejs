@@ -9,7 +9,7 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
- 
+        <% include ../static/partials/messages.ejs %>
 
         <h1>New Event</h1>
 
@@ -29,6 +29,16 @@
                 <small class="text-muted" id="bodyHelp">body must be 10 or more characters in length.</small>
             </div>
 
+            <% if(currentUser && (currentUser.role == "premium" || currentUser.role == "admin")) { %>
+                <div class="form-group">
+                <label for="private">Would you like to make this a private wiki?</label>
+                <select class="form-control" name="private">
+              <option value='false'>Public</option>
+              <option value='true'>Private</option>
+              </select>
+                </div>
+             <% }%>
+             
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
