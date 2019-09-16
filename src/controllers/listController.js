@@ -74,9 +74,10 @@ module.exports = {
       }
     });
   },
-
+// update: listQueries.updateList(req.params.id, req.body,..)
+//
   update(req, res, next) {
-    listQueries.updateList(req.params.id, req.body, (err, list) => {
+    listQueries.updateList(req, req.body, (err, list) => {
       if (err || list == null) {
         res.redirect(404, `/events/${req.params.eventId}/lists/${req.params.id}/edit`);
       } else {
