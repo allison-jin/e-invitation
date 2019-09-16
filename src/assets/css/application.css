@@ -100,6 +100,7 @@ body {
   .cont {
     width: 100%;
     color: black;
+    cursor: pointer;
   }
 
   .cont img{
@@ -185,7 +186,6 @@ body {
     border-radius: 20px; 
   }
   
-
   .footer-section {
     height: 3em;
     width: 100%;
@@ -193,8 +193,11 @@ body {
     background-color: #343a40;
     text-align: center;
     padding-bottom: 0;
+   
   }
-  
+ .personal-info {
+   padding-top: 10px;
+ }
   @media all and (max-width: 768px){
     section div {
       width: 80%;
