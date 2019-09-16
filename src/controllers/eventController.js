@@ -54,9 +54,10 @@ module.exports = {
             }
         });
     },
-
+// TypeError: Cannot read property 'id' of undefined
+// eventQueries.deleteEvent (req.params.id) => req
     destroy(req, res, next) {
-        eventQueries.deleteEvent(req.params.id, (err, event) => {
+        eventQueries.deleteEvent(req, (err, event) => {
             if (err) {
                 res.redirect(500, `/events/${req.params.id}`)
             } else {

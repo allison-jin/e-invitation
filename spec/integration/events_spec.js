@@ -83,7 +83,7 @@ describe("routes : events", () => {
           done();
         });
       });
-    });// events
+    });// adimin events
 
     describe("GET /events/new", () => {
 
@@ -95,7 +95,7 @@ describe("routes : events", () => {
         });
       });
 
-    });//new
+    });// admin new
 
     describe("POST /events/create", () => {
       const options = {
@@ -108,10 +108,8 @@ describe("routes : events", () => {
 
       it("should create a new event and redirect", (done) => {
 
-        //#1
         request.post(options,
 
-          //#2
           (err, res, body) => {
             Event.findOne({ where: { title: "blink-182 songs" } })
               .then((event) => {
@@ -133,7 +131,6 @@ describe("routes : events", () => {
           url: `${base}create`,
           form: {
 
-            //#1
             title: "a",
             body: "b"
           }
@@ -142,7 +139,6 @@ describe("routes : events", () => {
         request.post(options,
           (err, res, body) => {
 
-            //#2
             Event.findOne({ where: { title: "a" } })
               .then((event) => {
                 expect(event).toBeNull();
@@ -156,7 +152,7 @@ describe("routes : events", () => {
         );
       });
 
-    });// create
+    });// admin create
 
     describe("GET /events/:id", () => {
 
@@ -168,7 +164,7 @@ describe("routes : events", () => {
         });
       });
 
-    });//events/:id
+    });// admin events/:id
 
 
     describe("POST /events/:id/destroy", () => {
@@ -198,7 +194,7 @@ describe("routes : events", () => {
 
       });
 
-    });//:id/destroy
+    });//admin :id/destroy
 
     describe("GET /events/:id/edit", () => {
 
@@ -211,7 +207,7 @@ describe("routes : events", () => {
         });
       });
 
-    });//:id/edit
+    });//admin :id/edit
 
 
     describe("POST /events/:id/update", () => {
@@ -274,16 +270,13 @@ describe("routes : events", () => {
 
       it("should not delete the event with the associated ID", (done) => {
 
-        //#1
         Event.all()
           .then((events) => {
 
-            //#2
             const eventCountBeforeDelete = events.length;
 
             expect(eventCountBeforeDelete).toBe(1);
 
-            //#3
             request.post(`${base}${this.event.id}/destroy`, (err, res, body) => {
               Event.all()
                 .then((events) => {
@@ -297,10 +290,11 @@ describe("routes : events", () => {
 
       });
 
-    });
+    }); // member2 id destroy
 
 
   });
+
   describe("member user performing CRUD actions for event", () => {
 
     beforeEach((done) => {
