@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <% include ../static/partials/head.ejs %>
-</head>
-
-<body>
+  </head>
+  <body>
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
 
-        <h1>Edit Event</h1>
+      <h1>Edit Event</h1>
 
-        <form action="/events/<%= event.id %>/update" method="post">
-            <div class="form-group">
-                <label for="title">Event title</label>
+<!-- #1 -->
+      <form action="/events/<%= event.id %>/update" method="post">
+        <div class="form-group">
+          <label for="title">Event title</label>
+<!-- #2 -->
+          <input value="<%= event.title %>" type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+<!-- #3 -->
+          <textarea rows="4" class="form-control" name="description" placeholder="Enter Description"><%= event.description %></textarea>
+        </div>
 
-                <input value="<%= event.title %>" type="text" class="form-control" name="title" aria-describedby="titleHelp"
-                    placeholder="Enter Title">
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
 
-                <textarea rows="4" class="form-control" name="description" placeholder="Enter Description"><%= event.description %></textarea>
-            </div>
+        <% if(currentUser && (currentUser.role == "premium" || currentUser.role == "admin")) { %>
+          <div class="form-group">
+            <label for="private">change your event to private/public</label>
+            <select class="form-control" name="private">
+              <option value='false'>Public</option>
+              <option value='true'>Private</option>
+            </select>
+          </div>
+          <% }%>
 
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
 
-</body>
-
+  </body>
 </html>

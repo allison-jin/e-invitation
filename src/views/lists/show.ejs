@@ -10,11 +10,18 @@
       <% include ../static/partials/messages.ejs %>
       <h1><%= list.title %></h1>
 
-      <form style="display:initial" action="/events/<%= list.eventId %>/lists/<%= list.id %>/destroy" method="post">
-        <button type="submit" class="btn btn-danger">Delete</button>
-      </form>
+        <% if(currentUser && (currentUser.id === list.userId || currentUser.isAdmin())) { %>
+          <a href="/events/<%= list.eventId %>" class="btn btn-warning">Back to Event</a>
 
-      <a href="/events/<%= list.eventId %>/lists/<%= list.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/events/<%= list.eventId %>/lists/<%= list.id %>/edit" class="btn btn-warning">Edit</a>
+
+        <form style="display:initial" action="/events/<%= list.eventId %>/lists/<%= list.id %>/destroy" method="post">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+
+       
+        <% } %>
+       
     
       <p><%= list.body %></p>
 
