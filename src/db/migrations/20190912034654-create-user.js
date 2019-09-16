@@ -32,7 +32,7 @@ module.exports = {
   //     }
   //   });
   // },
-  // down: (queryInterface, Sequelize) => {
-  //   return queryInterface.dropTable('Users');
-  // }
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('Users');
+  }
 };
